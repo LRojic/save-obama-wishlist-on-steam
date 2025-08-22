@@ -1,6 +1,6 @@
 import pygame, os 
 
-BASE_IMG_PATH = "fotitos y audio/"
+BASE_IMG_PATH = "img/"
 
 def load_image (path) :
     img = pygame.image.load(BASE_IMG_PATH + path).convert()

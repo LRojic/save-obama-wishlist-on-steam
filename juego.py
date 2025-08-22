@@ -1,6 +1,7 @@
 import pygame, sys
 from script.entitites import PhysicsEntity
 from script.utils import load_image
+from script.tilemap import Tilemap
 
 class Game:
     def __init__ (self) :
@@ -13,7 +14,8 @@ class Game:
         
         except :
             pass
-    
+            
+        self.display = pygame.Surface ((320, 240))
         self.screen = pygame.display.set_mode ((1640, 920))
         self.movement = [False, False]
         self.clock = pygame.time.Clock ()
@@ -26,18 +28,21 @@ class Game:
         img = pygame.transform.scale (img, new_size)
         self.player = PhysicsEntity(self, "player", (500, 200), (15, 15))
         self.assets = {"player": img,
-                       "piso" : load_image('tiles/piso'),
-                       "caja" : load_image('tiles/caja'),
-                       "silla" : load_image('tiles/silla'),
-                       "mesa" : load_image('tiles/mesa'),
+                       "piso" : load_image('Tiles/pizosuperficie final.png'),
+                       "caja" : load_image('Tiles/caja wacho.png'),
+                       "silla" : load_image('Tiles/banquitobama.png'),
+                       #"mesa" : load_image('tiles/mesa'),
                         }
-        print (self.assets)
+        self.tilemap = Tilemap(self,  tile_size=16)       
 
     def run (self) :
         
         while True :
-            img = load_image ("DJ Totote Fondo/DJ totote prime.png")
-            self.screen.blit(img, (0, 0))
+            self.display.fill ((255, 255, 255))
+            self.tilemap.render(self.display)
+
+            #img = load_image ("DJ Totote Fondo/DJ totote prime.png")
+            #self.screen.blit(img, (0, 0))
             self.player.update (((self.movement [1] - self.movement [0])*4, 0))
             self.player.render (self.screen)
                 
@@ -66,6 +71,7 @@ class Game:
                         self.movement[0] = False
                     if event.key == pygame.K_d :
                         self.movement[1] = False
+            self.screen.blit (self.display, (0, 0))
             pygame.display.update ()
             self.clock.tick (60)
 
