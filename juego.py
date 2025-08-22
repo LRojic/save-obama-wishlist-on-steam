@@ -1,6 +1,6 @@
 import pygame, sys
 from script.entitites import PhysicsEntity
-from script.utils import load_image
+from script.utils import load_image, load_images
 from script.tilemap import Tilemap
 
 class Game:
@@ -15,21 +15,17 @@ class Game:
         except :
             pass
             
+        pygame.display.set_caption ("Why Always Obama?")
         self.display = pygame.Surface ((320, 240))
         self.screen = pygame.display.set_mode ((1640, 920))
         self.movement = [False, False]
         self.clock = pygame.time.Clock ()
 
-        pygame.display.set_caption ("Why Always Obama?")
 
-        img = load_image("Reptiliano PJ/reptiliano prime.png")
-        width, height = img.get_size ()
-        new_size = (width*4,height*4)
-        img = pygame.transform.scale (img, new_size)
         self.player = PhysicsEntity(self, "player", (500, 200), (15, 15))
-        self.assets = {"player": img,
-                       "piso" : load_image('Tiles/pizosuperficie final.png'),
-                       "caja" : load_image('Tiles/caja wacho.png'),
+        self.assets = {"player": load_images("Reptiliano PJ/reptiliano prime.png"),
+                       "piso" : load_images('Tiles/pizosuperficie final.png'),
+                       "caja" : load_images('Tiles/caja wacho.png'),
                        "silla" : load_image('Tiles/banquitobama.png'),
                         }
         self.tilemap = Tilemap(self,  tile_size=16)       
@@ -43,7 +39,7 @@ class Game:
             #img = load_image ("DJ Totote Fondo/DJ totote prime.png")
             #self.screen.blit(img, (0, 0))
             self.player.update (((self.movement [1] - self.movement [0])*4, 0))
-            self.player.render (self.screen)
+            self.player.render (self.display)
                 
             for event in pygame.event.get () :
                 if event.type == pygame.QUIT :
@@ -70,7 +66,7 @@ class Game:
                         self.movement[0] = False
                     if event.key == pygame.K_d :
                         self.movement[1] = False
-            self.screen.blit (self.display, (0, 0))
+            self.screen.blit (pygame.surface.Surface(self.display, self.screen.get_size ()), (0, 0))
             pygame.display.update ()
             self.clock.tick (60)
 
