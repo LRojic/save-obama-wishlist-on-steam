@@ -9,12 +9,12 @@ class Tilemap :
             self.tilemap[str(3+i) + ';10'] = {'type' : 'piso', 'variant' : 1, 'pos' : (3 + i, 10)}
             self.tilemap['10;' + str(5 + i)] = {'type' : 'caja', 'variant' : 1, 'pos' : (10, 5+i)}
 
-    def render (self, surf) :
+    def render(self, surf):
         for tile in self.offgrid_tiles:
-            surf.blit(self.game.assets[tile['type']][tile['variant']],tile['pos'])
-        
+            surf.blit(self.game.assets[tile['type']][tile['variant']], tile['pos'])
+            
         for loc in self.tilemap:
             tile = self.tilemap[loc]
-            surf.blit(self.game.assets[tile['type']][tile['variant']],(tile['pos'][0] * self.tile_size, tile['pos'][1] * self.tile_size))
+            surf.blit(self.game.assets[tile['type']][tile['variant']], (tile['pos'][0] * self.tile_size, tile['pos'][1] * self.tile_size))
         
         

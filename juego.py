@@ -31,7 +31,6 @@ class Game:
                        "piso" : load_image('Tiles/pizosuperficie final.png'),
                        "caja" : load_image('Tiles/caja wacho.png'),
                        "silla" : load_image('Tiles/banquitobama.png'),
-                       #"mesa" : load_image('tiles/mesa'),
                         }
         self.tilemap = Tilemap(self,  tile_size=16)       
 
