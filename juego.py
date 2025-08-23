@@ -8,31 +8,26 @@ class Game:
     def __init__ (self) :
                 
         pygame.init ()
-        try: 
-            pygame.mixer.init ()
-            pygame.mixer.music.load ("img/Audios Sigmas/dj-totote producer tag.mp3")
-            pygame.mixer.music.set_volume(1) 
-            pygame.mixer.music.play ()
-            sleep (2.5)
 
-        
-        except :
-            pass
+        pygame.mixer.init ()
+        pygame.mixer.music.load ("img/Audios Sigmas/dj-totote producer tag.mp3")
+        pygame.mixer.music.play ()
+        sleep (2.5)
+
+
             
         pygame.display.set_caption ("Why Always Obama?")
         self.display = pygame.Surface ((320, 240))
         self.screen = pygame.display.set_mode ((1640, 920))
         self.movement = [False, False]
         self.clock = pygame.time.Clock ()
-
-
-        self.player = PhysicsEntity(self, "player", (500, 200), (15, 15))
-        self.assets = {"player": load_images("Reptiliano PJ"),
-                       "piso" : load_images('Tiles/pisos'),
-                       "caja" : load_images('Tiles/caja'),
-                       "silla" : load_images('Tiles/silla'),
+        
+        self.assets = {"piso" : load_images('Tiles/pisos'),
+                       "caja" : load_image('Tiles/caja/caja wacho.png'),
+                       "silla" : load_image('Tiles/silla/banquitobama.png'),
+                       "player": load_image("Reptiliano PJ/reptiliano prime.png"),
                         }
-
+        self.player = PhysicsEntity(self, "player", (50, 50), (8, 15))
         self.tilemap = Tilemap(self,  tile_size=16)       
 
     def run (self) :
@@ -42,15 +37,13 @@ class Game:
         pygame.mixer.music.play (-1)
 
         while True :
+            self.display.fill((255,255,255))
 
-
-
-            img = load_image ("DJ Totote Fondo/DJ totote prime.png")
-            self.screen.blit(img, (0, 0))
-            self.player.update (((self.movement [1] - self.movement [0])*4, 0))
-            self.player.render (self.display)
             self.tilemap.render(self.display)
 
+            self.player.update (((self.movement [1] - self.movement [0])*2.5, 0))
+            self.player.render (self.display)
+            
                 
             for event in pygame.event.get () :
                 if event.type == pygame.QUIT :
