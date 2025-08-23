@@ -23,7 +23,7 @@ class Game:
 
 
         self.player = PhysicsEntity(self, "player", (500, 200), (15, 15))
-        self.assets = {"player": load_images("Reptiliano PJ/reptiliano prime.png"),
+        self.assets = {"player": load_images("Reptiliano PJ"),
                        "piso" : load_images('Tiles/pizosuperficie final.png'),
                        "caja" : load_images('Tiles/caja wacho.png'),
                        "silla" : load_image('Tiles/banquitobama.png'),
