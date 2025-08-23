@@ -16,7 +16,7 @@ class Game:
             pass
             
         pygame.display.set_caption ("Why Always Obama?")
-        self.display = pygame.Surface ((320, 240))
+
         self.screen = pygame.display.set_mode ((1640, 920))
         self.movement = [False, False]
         self.clock = pygame.time.Clock ()
@@ -24,20 +24,21 @@ class Game:
 
         self.player = PhysicsEntity(self, "player", (500, 200), (15, 15))
         self.assets = {"player": load_images("Reptiliano PJ"),
-                       "piso" : load_images('Tiles/pizosuperficie final.png'),
-                       "caja" : load_images('Tiles/caja wacho.png'),
-                       "silla" : load_image('Tiles/banquitobama.png'),
+                       "piso" : load_images('Tiles/pisos'),
+                       "caja" : load_images('Tiles/caja'),
+                       "silla" : load_images('Tiles/silla'),
                         }
+
         self.tilemap = Tilemap(self,  tile_size=16)       
 
     def run (self) :
-        
+        self.display = pygame.Surface ((320, 240))
         while True :
-            self.display.fill ((255, 255, 255))
+
             self.tilemap.render(self.display)
 
-            #img = load_image ("DJ Totote Fondo/DJ totote prime.png")
-            #self.screen.blit(img, (0, 0))
+            img = load_image ("DJ Totote Fondo/DJ totote prime.png")
+            self.screen.blit(img, (0, 0))
             self.player.update (((self.movement [1] - self.movement [0])*4, 0))
             self.player.render (self.display)
                 
@@ -66,7 +67,7 @@ class Game:
                         self.movement[0] = False
                     if event.key == pygame.K_d :
                         self.movement[1] = False
-            self.screen.blit (pygame.surface.Surface(self.display, self.screen.get_size ()), (0, 0))
+            self.screen.blit (pygame.transform.scale(self.display, self.screen.get_size ()), (0, 0))
             pygame.display.update ()
             self.clock.tick (60)
 
