@@ -1,4 +1,5 @@
 import pygame, sys
+from time import sleep
 from script.entitites import PhysicsEntity
 from script.utils import load_image, load_images
 from script.tilemap import Tilemap
@@ -9,14 +10,17 @@ class Game:
         pygame.init ()
         try: 
             pygame.mixer.init ()
-            pygame.mixer.music.load ("fotitos y audio/Audios sigmas/dj-totote producer tag.mp3")
+            pygame.mixer.music.load ("img/Audios Sigmas/dj-totote producer tag.mp3")
+            pygame.mixer.music.set_volume(1) 
             pygame.mixer.music.play ()
+            sleep (2.5)
+
         
         except :
             pass
             
         pygame.display.set_caption ("Why Always Obama?")
-
+        self.display = pygame.Surface ((320, 240))
         self.screen = pygame.display.set_mode ((1640, 920))
         self.movement = [False, False]
         self.clock = pygame.time.Clock ()
@@ -32,15 +36,21 @@ class Game:
         self.tilemap = Tilemap(self,  tile_size=16)       
 
     def run (self) :
-        self.display = pygame.Surface ((320, 240))
+        pygame.mixer.init ()
+        pygame.mixer.music.load ("img/Audios Sigmas/obama have dihh hoodtrap song.mp3")
+        pygame.mixer.music.set_volume(0.4)  
+        pygame.mixer.music.play (-1)
+
         while True :
 
-            self.tilemap.render(self.display)
+
 
             img = load_image ("DJ Totote Fondo/DJ totote prime.png")
             self.screen.blit(img, (0, 0))
             self.player.update (((self.movement [1] - self.movement [0])*4, 0))
             self.player.render (self.display)
+            self.tilemap.render(self.display)
+
                 
             for event in pygame.event.get () :
                 if event.type == pygame.QUIT :
@@ -71,4 +81,5 @@ class Game:
             pygame.display.update ()
             self.clock.tick (60)
 
+            
 Game().run ()
