@@ -23,7 +23,7 @@ class Game:
         self.clock = pygame.time.Clock ()
         
         self.assets = {"piso" : load_images('Tiles/pisos'),
-                       "caja" : load_image('Tiles/caja/caja wacho.png'),
+                       "caja" : load_images('Tiles/caja'),
                        "silla" : load_image('Tiles/silla/banquitobama.png'),
                        "player": load_image("Reptiliano PJ/reptiliano prime.png"),
                         }
@@ -41,7 +41,7 @@ class Game:
 
             self.tilemap.render(self.display)
 
-            self.player.update (((self.movement [1] - self.movement [0])*2.5, 0))
+            self.player.update (self.tilemap, ((self.movement [1] - self.movement [0])*2.5, 0))
             self.player.render (self.display)
             
                 
