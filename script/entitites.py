@@ -12,7 +12,7 @@ class PhysicsEntity :
         return pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1])
     
     def update (self, tilemap, movement = (0, 0)) :
-        frame_movement = (movement [0] + self.velocity[0], movement [1] + self.velocity[1])
+        frame_movement = (movement[0] + self.velocity[0], movement[1] + self.velocity[1])
 
         self.pos[0] += frame_movement[0]
         entity_rect = self.rect() 
