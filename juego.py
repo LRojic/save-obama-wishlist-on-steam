@@ -9,11 +9,13 @@ class Game:
                 
         pygame.init ()
 
-        pygame.mixer.init ()
-        pygame.mixer.music.load ("img/Audios Sigmas/dj-totote producer tag.mp3")
-        pygame.mixer.music.play ()
-        sleep (2.5)
-
+        try :
+            pygame.mixer.init ()
+            pygame.mixer.music.load ("img/Audios Sigmas/dj-totote producer tag.mp3")
+            pygame.mixer.music.play ()
+            sleep (2.5)
+        except :
+            pass
 
             
         pygame.display.set_caption ("Why Always Obama?")
@@ -31,19 +33,22 @@ class Game:
         self.tilemap = Tilemap(self,  tile_size=16)       
 
     def run (self) :
-        pygame.mixer.init ()
-        pygame.mixer.music.load ("img/Audios Sigmas/obama have dihh hoodtrap song.mp3")
-        pygame.mixer.music.set_volume(0.4)  
-        pygame.mixer.music.play (-1)
-
+        try :
+            pygame.mixer.init ()
+            pygame.mixer.music.load ("img/Audios Sigmas/obama have dihh hoodtrap song.mp3")
+            pygame.mixer.music.set_volume(0.4)  
+            pygame.mixer.music.play (-1)
+        except :
+            pass
+        
         while True :
             self.display.fill((255,255,255))
 
             self.tilemap.render(self.display)
 
-            self.player.update (self.tilemap, ((self.movement [1] - self.movement [0])*2.5, 0))
+            self.player.update (self.tilemap, (self.movement[1] - self.movement[0], 0))
             self.player.render (self.display)
-            
+            print(self.tilemap.physics_rects_around(self.player.pos))
                 
             for event in pygame.event.get () :
                 if event.type == pygame.QUIT :

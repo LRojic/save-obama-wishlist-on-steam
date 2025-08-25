@@ -1,7 +1,7 @@
 import pygame
 
 NEIGHBOR_OFFSETS = [(-1, 0), (-1, -1), (0, -1), (1, -1), (1, 0), (0, 0), (-1, 1), (0, 1), (1, 1)]
-PHYSICS_TILES = {"pisos", "caja", "silla"}
+PHYSICS_TILES = {"piso", "caja", "silla"}
 
 class Tilemap :
     def __init__ (self, game, tile_size=16):
@@ -26,12 +26,10 @@ class Tilemap :
     def physics_rects_around (self, pos) :
         rects = [] 
         for tile in self.tiles_around(pos) : #cada tile cerca del pj
-            if tile["type"] in PHYSICS_TILES : #chequea si tiene fisicas
-                rects.append(pygame.Rect(tile[pos][0] * self.tile_size, tile[pos][1] * self.tile_size, self.tile_size, self.tile_size)) #crea el rectangulo
+            if tile['type'] in PHYSICS_TILES : #chequea si tiene fisicas
+                rects.append(pygame.Rect(tile['pos'][0] * self.tile_size, tile['pos'][1] * self.tile_size, self.tile_size, self.tile_size)) #crea el rectangulo
         return rects
 
-
-            
 
     def render(self, surf):
         for tile in self.offgrid_tiles:
