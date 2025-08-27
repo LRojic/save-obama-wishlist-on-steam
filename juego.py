@@ -19,10 +19,13 @@ class Game:
 
             
         pygame.display.set_caption ("Why Always Obama?")
-        self.display = pygame.Surface ((320, 240))
         self.screen = pygame.display.set_mode ((1640, 920))
-        self.movement = [False, False]
+        self.display = pygame.Surface ((320, 240))
+
+        
         self.clock = pygame.time.Clock ()
+        
+        self.movement = [False, False]
         
         self.assets = {"piso" : load_images('Tiles/pisos'),
                        "caja" : load_images('Tiles/caja'),
@@ -30,6 +33,7 @@ class Game:
                        "player": load_image("Reptiliano PJ/reptiliano prime.png"),
                         }
         self.player = PhysicsEntity(self, "player", (50, 50), (8, 15))
+        
         self.tilemap = Tilemap(self,  tile_size=16)       
 
     def run (self) :
@@ -43,9 +47,11 @@ class Game:
         
         while True :
             self.display.fill((255,255,255))
+            img = load_image("Obama PJ/menu chad sin botones.png")
+            self.display.blit(img,(0,0))
 
             self.tilemap.render(self.display)
-
+            
             self.player.update (self.tilemap, (self.movement[1] - self.movement[0], 0))
             self.player.render (self.display)
             print(self.tilemap.physics_rects_around(self.player.pos))
@@ -59,6 +65,8 @@ class Game:
                         self.movement[0] = True
                     if event.key == pygame.K_RIGHT :
                         self.movement[1] = True
+                    if event.key == pygame.K_UP:
+                        self.player.velocity[1] = -3
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT :
                         self.movement[0] = False
@@ -70,6 +78,8 @@ class Game:
                         self.movement[0] = True
                     if event.key == pygame.K_d :
                         self.movement[1] = True
+                    if event.key == pygame.K_w or event.key == pygame.K_SPACE:
+                        self.player.velocity[1] = -3
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_a :
                         self.movement[0] = False
@@ -78,6 +88,5 @@ class Game:
             self.screen.blit (pygame.transform.scale(self.display, self.screen.get_size ()), (0, 0))
             pygame.display.update ()
             self.clock.tick (60)
-
             
-Game().run ()
+Game().run () 
