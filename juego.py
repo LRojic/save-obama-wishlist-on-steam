@@ -19,8 +19,8 @@ class Game:
 
             
         pygame.display.set_caption ("Why Always Obama?")
-        self.screen = pygame.display.set_mode ((1640, 920))
-        self.display = pygame.Surface ((320, 240))
+        self.screen = pygame.display.set_mode ((1052, 512))
+        self.display = pygame.Surface ((1052, 512))
 
         
         self.clock = pygame.time.Clock ()
@@ -32,7 +32,7 @@ class Game:
                        "silla" : load_image('Tiles/silla/banquitobama.png'),
                        "player": load_image("Reptiliano PJ/reptiliano prime.png"),
                         }
-        self.player = PhysicsEntity(self, "player", (50, 50), (8, 15))
+        self.player = PhysicsEntity(self, "player", (50, 50), (22, 59))
         
         self.tilemap = Tilemap(self,  tile_size=16)       
 
