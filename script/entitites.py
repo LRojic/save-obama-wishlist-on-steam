@@ -17,31 +17,33 @@ class PhysicsEntity:
         
         frame_movement = (movement[0] + self.velocity[0], movement[1] + self.velocity[1])
         
-        # Movimiento horizontal
         self.pos[0] += frame_movement[0]
         entity_rect = self.rect()
         for rect in tilemap.physics_rects_around(self.pos):
             if entity_rect.colliderect(rect):
-                if frame_movement[0] > 0:  # Moviendo a la derecha
-                    self.pos[0] = rect.left - self.size[0]
+                if frame_movement[0] > 0:
+                    entity_rect.right = rect.left
                     self.collisions['right'] = True
-                if frame_movement[0] < 0:  # Moviendo a la izquierda
-                    self.pos[0] = rect.right
+                    self.velocity[0] = 0
+                if frame_movement[0] < 0:
+                    entity_rect.left = rect.right
                     self.collisions['left'] = True
-                # Resetear velocidad horizontal si choca
-                self.velocity[0] = 0
+                    self.velocity[0] = 0
+                self.pos[0] = entity_rect.x
         
-        # Movimiento vertical
         self.pos[1] += frame_movement[1]
         entity_rect = self.rect()
         for rect in tilemap.physics_rects_around(self.pos):
             if entity_rect.colliderect(rect):
-                if frame_movement[1] > 0:  # Cayendo
-                    self.pos[1] = rect.top - self.size[1]
+                if frame_movement[1] > 0:
+                    entity_rect.bottom = rect.top
                     self.collisions['down'] = True
-                if frame_movement[1] < 0:  # Saltando
-                    self.pos[1] = rect.bottom
+                    self.velocity[1] = 0
+                if frame_movement[1] < 0:
+                    entity_rect.top = rect.bottom
                     self.collisions['up'] = True
+                    self.velocity[1] = 0
+                self.pos[1] = entity_rect.y
         
         self.velocity[1] = min(5, self.velocity[1] + 0.1)
         
