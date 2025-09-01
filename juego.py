@@ -21,9 +21,10 @@ class Game:
         self.assets = {
             'caja': load_images('Tiles/caja', (16,16)),
             'piso': load_images('Tiles/pisos', (16,16)),
-            'player': load_image('Reptiliano PJ/reptiliano prime.png')
+            'player': load_image('Reptiliano PJ/reptiliano prime.png', (8, 16) )
         }
-        self.player = PhysicsEntity(self, "player", (50, 50), (8,15))
+
+        self.player = PhysicsEntity(self, "player", (50, 50), (8, 16))
         
         self.tilemap = Tilemap(self, tile_size=16)
         
