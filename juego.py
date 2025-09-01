@@ -5,13 +5,15 @@ import pygame
 from script.utils import load_image, load_images
 from script.entitites import PhysicsEntity
 from script.tilemap import Tilemap
+from script.menu import Menu
 
 class Game:
     def __init__(self):
         pygame.init()
 
         pygame.display.set_caption('save obama')
-        self.screen = pygame.display.set_mode((640, 480))
+        self.screen = pygame.display.set_mode((1054, 512))
+        
         self.display = pygame.Surface((320, 240))
 
         self.clock = pygame.time.Clock()
@@ -21,7 +23,8 @@ class Game:
         self.assets = {
             'caja': load_images('Tiles/caja', (16,16)),
             'piso': load_images('Tiles/pisos', (16,16)),
-            'player': load_image('Reptiliano PJ/reptiliano prime.png', (8, 16) )
+            'player': load_image('Reptiliano PJ/pjbien.png', (12, 18)), 
+            'buttons' : load_images("botones"),
         }
 
         self.player = PhysicsEntity(self, "player", (50, 50), (8, 16))
@@ -30,10 +33,15 @@ class Game:
         
     def run(self):
         while True:
-            self.display.fill((14, 219, 248))
-            
+
+            img = load_image("Obama PJ/Menu chad sin botones.png", (320, 240))
+            self.display.blit(img, (0,0))
+
+
             self.tilemap.render(self.display)
-            
+            self.game_state = "MENU"
+            self.menu = Menu(self) 
+
             self.player.update(self.tilemap, (self.movement[1] - self.movement[0], 0))
             self.player.render(self.display)
             
