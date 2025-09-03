@@ -67,8 +67,8 @@ class Menu:
         scale = 0.5  
         
         # Botón JUGAR - izquierda
-        self.jugar_button = Button(
-            x=80,
+        self.creditos_button = Button(
+            x=200,
             y=150,
             normal_sprite=button_sprites[0] if len(button_sprites) > 0 else pygame.Surface((80, 30)),
             hover_sprite=button_sprites[1] if len(button_sprites) > 1 else pygame.Surface((80, 30)),
@@ -79,7 +79,7 @@ class Menu:
         # Botón TUTORIAL - arriba derecha
         self.tutorial_button = Button(
             x=200,
-            y=120,
+            y=105,
             normal_sprite=button_sprites[4] if len(button_sprites) > 4 else button_sprites[0],
             hover_sprite=button_sprites[5] if len(button_sprites) > 5 else button_sprites[1],
             action=self.show_tutorial,
@@ -87,9 +87,9 @@ class Menu:
         )
         
         # Botón CRÉDITOS - abajo derecha
-        self.creditos_button = Button(
-            x=200,
-            y=170,
+        self.jugar_button = Button(
+            x=5,
+            y=115,
             normal_sprite=button_sprites[2] if len(button_sprites) > 2 else button_sprites[0],
             hover_sprite=button_sprites[3] if len(button_sprites) > 3 else button_sprites[1],
             action=self.show_credits,

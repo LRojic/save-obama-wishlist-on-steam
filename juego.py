@@ -29,7 +29,7 @@ class Game:
         
         # Cargar fondo del menú
         try:
-            self.menu_bg = load_image("Obama PJ/Menu chad sin botones.png", (320, 240))
+            self.menu_bg = load_image("Obama_PJ/Menu_chad_sin_botones.png", (320, 240))
         except:
             # Si no encuentra la imagen, crear un fondo de color
             self.menu_bg = pygame.Surface((320, 240))
