@@ -13,13 +13,13 @@ class Game:
         self.display = pygame.Surface((320, 240))
         self.clock = pygame.time.Clock()
         
-        # Estados del juego
-        self.game_state = "MENU"  # "MENU", "PLAYING"
+        # estado del juego
+        self.game_state = "MENU"  # menu playing
         
-        # Movimiento del jugador
+        # movimiento del jugador
         self.movement = [False, False]
         
-        # Cargar assets
+        # cargar assets
         self.assets = {
             'caja': load_images('Tiles/caja', (16,16)),
             'piso': load_images('Tiles/pisos', (16,16)),
@@ -27,41 +27,38 @@ class Game:
             'buttons': load_images("botones"),
         }
         
-        # Cargar fondo del menú
-        try:
-            self.menu_bg = load_image("Obama_PJ/Menu_chad_sin_botones.png", (320, 240))
-        except:
-            # Si no encuentra la imagen, crear un fondo de color
-            self.menu_bg = pygame.Surface((320, 240))
-            self.menu_bg.fill((200, 150, 100))
+        # cargar fondo del menú
+
+        self.menu_bg = load_image("Obama_PJ/Menu_chad_sin_botones.png", (320, 240))
         
-        # Crear entidades del juego
+        # crear entidades del juego
         self.player = PhysicsEntity(self, "player", (50, 50), (8, 16))
         self.tilemap = Tilemap(self, tile_size=16)
         
-        # Crear menú
+        # crear menú
         self.menu = Menu(self)
     
     def start_game(self):
-        """Iniciar el juego"""
+        # inicia el juego
         self.game_state = "PLAYING"
     
     def back_to_menu(self):
-        """Volver al menú"""
+        # volver al menú
         self.game_state = "MENU"
     
     def run(self):
+        # arranque
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
-                    sys.exit()
+                    sys.exit() # para salir
                 
-                # Manejar eventos según el estado
+                # maneja eventos según el estado
                 if self.game_state == "MENU":
                     self.menu.handle_events(event)
                 elif self.game_state == "PLAYING":
-                    # Controles del juego
+                    # controles del juego
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                             self.movement[0] = True
@@ -70,27 +67,27 @@ class Game:
                         if event.key == pygame.K_UP or event.key == pygame.K_w:
                             self.player.velocity[1] = -3
                         if event.key == pygame.K_ESCAPE:
-                            self.back_to_menu()  # Volver al menú con ESC
+                            self.back_to_menu()  # volver al menú con ESC
                     if event.type == pygame.KEYUP:
                         if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                             self.movement[0] = False
                         if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                             self.movement[1] = False
             
-            # Renderizar según el estado
+            # renderizar segun el estado
             if self.game_state == "MENU":
                 self.menu.update()
                 self.menu.render(self.display)
             elif self.game_state == "PLAYING":
-                # Lógica del juego
-                self.display.fill((135, 206, 235))  # Fondo azul cielo
+                # render de lo que se muestra
+                self.display.fill((135, 206, 235))  # fondo azul cielo
                 
                 self.tilemap.render(self.display)
                 self.player.update(self.tilemap, (self.movement[1] - self.movement[0], 0))
                 self.player.render(self.display)
             
             
-            self.screen.blit(pygame.transform.scale(self.display, self.screen.get_size()), (0, 0))
+            self.screen.blit(pygame.transform.scale(self.display, self.screen.get_size()), (0, 0)) # escalar a pantalla
             pygame.display.update()
             self.clock.tick(60)
 

@@ -3,33 +3,34 @@ from script.utils import load_image
 
 class Button:
     def __init__(self, x, y, normal_sprite, hover_sprite, action=None, scale=1.0):
-        # Escalar los sprites si se especifica
+        # escalar los sprites si se especifica
         if scale != 1.0:
             new_width = int(normal_sprite.get_width() * scale)
             new_height = int(normal_sprite.get_height() * scale)
             self.normal_sprite = pygame.transform.scale(normal_sprite, (new_width, new_height))
             self.hover_sprite = pygame.transform.scale(hover_sprite, (new_width, new_height))
+        # sino usarlos normal
         else:
             self.normal_sprite = normal_sprite
             self.hover_sprite = hover_sprite
             
         self.x = x
-        self.y = y
-        self.action = action
-        self.is_hovered = False
-        self.rect = pygame.Rect(x, y, self.normal_sprite.get_width(), self.normal_sprite.get_height())
+        self.y = y # x y y para las posiciones
+        self.action = action 
+        self.is_hovered = False # mouse encima del sprite
+        self.rect = pygame.Rect(x, y, self.normal_sprite.get_width(), self.normal_sprite.get_height()) # genera la hitbox
     
     def update(self, mouse_pos):
-        """Actualiza el estado hover del botón"""
+        # en caso de que este el mouse encima da true
         self.is_hovered = self.rect.collidepoint(mouse_pos)
     
     def render(self, surf):
-        """Renderiza el botón con el sprite correcto"""
+        # si self.is_hovered es true usa el sprite cambiado
         sprite = self.hover_sprite if self.is_hovered else self.normal_sprite
         surf.blit(sprite, (self.x, self.y))
     
     def is_clicked(self, mouse_pos, mouse_clicked):
-        """Verifica si el botón fue clickeado"""
+        # verifica si el boton se clickeo
         if self.rect.collidepoint(mouse_pos) and mouse_clicked:
             if self.action:
                 self.action()
@@ -41,10 +42,10 @@ class Menu:
         self.game = game
         self.current_menu = "MAIN"  # "MAIN", "CREDITS", "TUTORIAL"
         
-        # Crear botones
+        # crear botones
         self.create_buttons()
         
-        # Cargar fondos adicionales si existen
+        # cargar fondos adicionales si existen
         try:
             self.credits_bg = load_image("Obama PJ/Menu creditos.png", (320, 240))
         except:
@@ -56,89 +57,82 @@ class Menu:
             self.tutorial_bg = self.game.menu_bg
     
     def create_buttons(self):
-        """Crear todos los botones del menú"""
+        # carga los assets de los botones
         button_sprites = self.game.assets['buttons']
         
-        if len(button_sprites) < 2:
-            print("Error: No hay suficientes sprites de botones")
-            return
-        
-        # Factor de escala para achicar los botones
+        # escala para achicar los botones
         scale = 0.5  
         
-        # Botón JUGAR - izquierda
+        # boton jugar - izquierda
         self.creditos_button = Button(
             x=200,
-            y=150,
-            normal_sprite=button_sprites[0] if len(button_sprites) > 0 else pygame.Surface((80, 30)),
-            hover_sprite=button_sprites[1] if len(button_sprites) > 1 else pygame.Surface((80, 30)),
-            action=self.start_game,
-            scale=scale
+            y=150, # posicion 
+            normal_sprite=button_sprites[0], 
+            hover_sprite=button_sprites[1], # defino cada sprite
+            action=self.show_credits, # cambio modo actual
+            scale=scale # escala
         )
         
-        # Botón TUTORIAL - arriba derecha
+        # boton tutorial - arriba derecha
         self.tutorial_button = Button(
             x=200,
             y=105,
-            normal_sprite=button_sprites[4] if len(button_sprites) > 4 else button_sprites[0],
-            hover_sprite=button_sprites[5] if len(button_sprites) > 5 else button_sprites[1],
+            normal_sprite=button_sprites[4],
+            hover_sprite=button_sprites[5],
             action=self.show_tutorial,
-            scale=scale
+            scale=scale 
         )
-        
-        # Botón CRÉDITOS - abajo derecha
+        # igual que el otro boton
+        # boton creditos - abajo derecha
         self.jugar_button = Button(
-            x=5,
+            x=3,
             y=115,
-            normal_sprite=button_sprites[2] if len(button_sprites) > 2 else button_sprites[0],
-            hover_sprite=button_sprites[3] if len(button_sprites) > 3 else button_sprites[1],
-            action=self.show_credits,
-            scale=scale
+            normal_sprite=button_sprites[2],
+            hover_sprite=button_sprites[3],
+            action=self.start_game,
+            scale=0.4
         )
         
-        # Botón VOLVER - para créditos y tutorial
-        volver_normal = button_sprites[6] if len(button_sprites) > 6 else button_sprites[0]
-        volver_hover = button_sprites[7] if len(button_sprites) > 7 else button_sprites[1]
-        
+        # boton volver - para créditos y tutorial
         self.volver_button = Button(
-            x=20,
-            y=200,
-            normal_sprite=volver_normal,
-            hover_sprite=volver_hover,
+            x=1,
+            y=199,
+            normal_sprite=button_sprites[6],
+            hover_sprite=button_sprites[7],
             action=self.back_to_main,
-            scale=scale
+            scale=0.45
         )
-        
-        # Listas de botones por menú
+        # igual q arriba
+        # listas de botones por menú
         self.main_buttons = [self.jugar_button, self.tutorial_button, self.creditos_button]
         self.credits_buttons = [self.volver_button]
         self.tutorial_buttons = [self.volver_button]
     
     def start_game(self):
-        """Iniciar el juego"""
+        # iniciar el juego
         self.game.start_game()
     
     def show_credits(self):
-        """Mostrar pantalla de créditos"""
+        # mostrar pantalla de créditos
         self.current_menu = "CREDITS"
     
     def show_tutorial(self):
-        """Mostrar pantalla de tutorial"""
+        # mostar pantalla de tutorial
         self.current_menu = "TUTORIAL"
     
     def back_to_main(self):
-        """Volver al menú principal"""
+        # volver al menu principal
         self.current_menu = "MAIN"
     
     def get_scaled_mouse_pos(self):
-        """Obtener posición del mouse escalada para la pantalla del juego"""
+        # obtener la posición del mouse escalada 
         mouse_pos = pygame.mouse.get_pos()
         return (mouse_pos[0] * 320 // 1054, mouse_pos[1] * 240 // 512)
     
     def update(self):
-        """Actualizar botones según el menú actual"""
+        # actualizar botones según el menú actual
         scaled_mouse_pos = self.get_scaled_mouse_pos()
-        
+        # cambia el sprite si esta el mouse encima
         if self.current_menu == "MAIN":
             for button in self.main_buttons:
                 button.update(scaled_mouse_pos)
@@ -150,10 +144,10 @@ class Menu:
                 button.update(scaled_mouse_pos)
     
     def handle_events(self, event):
-        """Manejar eventos del menú"""
+        # manejar eventos del menu
         scaled_mouse_pos = self.get_scaled_mouse_pos()
         mouse_clicked = event.type == pygame.MOUSEBUTTONDOWN and event.button == 1
-        
+
         if self.current_menu == "MAIN":
             for button in self.main_buttons:
                 button.is_clicked(scaled_mouse_pos, mouse_clicked)
@@ -165,16 +159,12 @@ class Menu:
                 button.is_clicked(scaled_mouse_pos, mouse_clicked)
     
     def render_credits_text(self, surf):
-        """Renderizar texto de créditos"""
+        # renderizar texto de creditos
         font = pygame.font.Font(None, 24)
         title_font = pygame.font.Font(None, 32)
         
-        # Título
-        title = title_font.render("SAVE OBAMA", True, (255, 255, 255))
-        title_rect = title.get_rect(center=(160, 30))
-        surf.blit(title, title_rect)
         
-        # Información de créditos
+        # informacion de créditos
         credits_lines = [
             "Creadores:",
             "Santiago Chaparro",
@@ -195,16 +185,12 @@ class Menu:
             y += 18
     
     def render_tutorial_text(self, surf):
-        """Renderizar texto de tutorial"""
+        # renderizar texto de tutorial (controles)
         font = pygame.font.Font(None, 20)
         title_font = pygame.font.Font(None, 28)
         
-        # Título
-        title = title_font.render("COMO JUGAR", True, (255, 255, 255))
-        title_rect = title.get_rect(center=(160, 30))
-        surf.blit(title, title_rect)
         
-        # Instrucciones
+        # instrucciones
         tutorial_lines = [
             "Controles:",
             "",
@@ -215,8 +201,6 @@ class Menu:
             "Flecha der / D: Mover derecha", 
             "",
             "ESC: Volver al menu",
-            "",
-            "¡Salva a Obama!"
         ]
         
         y = 60
@@ -228,33 +212,33 @@ class Menu:
             y += 16
     
     def render(self, surf):
-        """Renderizar el menú según el estado actual"""
+        # renderizar el menu segun el estado actual
         if self.current_menu == "MAIN":
-            # Renderizar fondo del menú principal
+            # renderizar fondo del menú principal
             surf.blit(self.game.menu_bg, (0, 0))
             
-            # Renderizar botones principales
+            # renderizar botones principales
             for button in self.main_buttons:
                 button.render(surf)
                 
         elif self.current_menu == "CREDITS":
-            # Renderizar fondo de créditos
+            # renderizar fondo de créditos
             surf.blit(self.credits_bg, (0, 0))
             
-            # Renderizar texto de créditos
+            # renderizar texto de créditos
             self.render_credits_text(surf)
             
-            # Renderizar botón de volver
+            # renderizar botón de volver
             for button in self.credits_buttons:
                 button.render(surf)
                 
         elif self.current_menu == "TUTORIAL":
-            # Renderizar fondo de tutorial
+            # renderizar fondo de tutorial
             surf.blit(self.tutorial_bg, (0, 0))
             
-            # Renderizar texto de tutorial
+            # renderizar texto de tutorial
             self.render_tutorial_text(surf)
             
-            # Renderizar botón de volver
+            # renderizar botón de volver
             for button in self.tutorial_buttons:
                 button.render(surf)

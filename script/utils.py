@@ -10,6 +10,7 @@ def load_image(path, scale=None):
     if scale :
         img = pygame.transform.scale(img, scale)
     return img
+    # carga una imagen con la escala dada y le saca el fondo
 
 def load_images(path, scale=None):
     images = []
@@ -20,3 +21,4 @@ def load_images(path, scale=None):
         images.append(load_image(img_path, scale))
 
     return images
+    # carga una lista de imagenes con la escala dada y les saca el fondo
