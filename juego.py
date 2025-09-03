@@ -28,7 +28,6 @@ class Game:
         }
         
         # cargar fondo del menú
-
         self.menu_bg = load_image("Obama_PJ/Menu_chad_sin_botones.png", (320, 240))
         
         # crear entidades del juego
@@ -37,7 +36,9 @@ class Game:
         
         # crear menú
         self.menu = Menu(self)
-    
+        self.scroll = [0, 0]
+
+
     def start_game(self):
         # inicia el juego
         self.game_state = "PLAYING"
@@ -49,6 +50,23 @@ class Game:
     def run(self):
         # arranque
         while True:
+            # renderizar segun el estado
+            if self.game_state == "MENU":
+                self.menu.update()
+                self.menu.render(self.display)
+            elif self.game_state == "PLAYING":
+                # render de lo que se muestra
+                self.display.fill((135, 206, 235))  # fondo azul cielo
+
+                self.scroll[0] += (self.player.rect().centerx - self.display.get_width() / 2 - self.scroll[0]) / 30
+                self.scroll[1] += (self.player.rect().centery - self.display.get_height() / 2 - self.scroll[1]) / 30
+                render_scroll = (int(self.scroll[0]), int(self.scroll[1]))
+
+                self.tilemap.render(self.display, offset=self.scroll)
+                self.player.update(self.tilemap, (self.movement[1] - self.movement[0], 0))
+                self.player.render(self.display, offset = self.scroll)
+
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -72,20 +90,7 @@ class Game:
                         if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                             self.movement[0] = False
                         if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-                            self.movement[1] = False
-            
-            # renderizar segun el estado
-            if self.game_state == "MENU":
-                self.menu.update()
-                self.menu.render(self.display)
-            elif self.game_state == "PLAYING":
-                # render de lo que se muestra
-                self.display.fill((135, 206, 235))  # fondo azul cielo
-                
-                self.tilemap.render(self.display)
-                self.player.update(self.tilemap, (self.movement[1] - self.movement[0], 0))
-                self.player.render(self.display)
-            
+                            self.movement[1] = False            
             
             self.screen.blit(pygame.transform.scale(self.display, self.screen.get_size()), (0, 0)) # escalar a pantalla
             pygame.display.update()

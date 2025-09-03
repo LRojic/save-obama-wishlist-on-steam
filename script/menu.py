@@ -46,15 +46,10 @@ class Menu:
         self.create_buttons()
         
         # cargar fondos adicionales si existen
-        try:
-            self.credits_bg = load_image("Obama PJ/Menu creditos.png", (320, 240))
-        except:
-            self.credits_bg = self.game.menu_bg
+        self.credits_bg = load_image("fondo/fondo_sin_obama.png", (320, 240))
         
-        try:
-            self.tutorial_bg = load_image("Obama PJ/Menu tutorial.png", (320, 240))
-        except:
-            self.tutorial_bg = self.game.menu_bg
+        self.tutorial_bg = load_image("fondo/fondo_sin_obama.png", (320, 240))
+        
     
     def create_buttons(self):
         # carga los assets de los botones

@@ -49,5 +49,5 @@ class PhysicsEntity:
             self.velocity[1] = 0 
         # si se choca con el piso o el techo se frena la velocidad en y
         
-    def render(self, surf):
-        surf.blit(self.game.assets['player'], self.pos) # dibuja la imagen del jugador en la posicion actual
+    def render(self, surf, offset = (0,0)):
+        surf.blit(self.game.assets['player'], (self.pos[0] - offset[0], self.pos[1] - offset[1])) # dibuja la imagen del jugador en la posicion actual
