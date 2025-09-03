@@ -2,14 +2,22 @@ import pygame
 from script.utils import load_image
 
 class Button:
-    def __init__(self, x, y, normal_sprite, hover_sprite, action=None):
+    def __init__(self, x, y, normal_sprite, hover_sprite, action=None, scale=1.0):
+        # Escalar los sprites si se especifica
+        if scale != 1.0:
+            new_width = int(normal_sprite.get_width() * scale)
+            new_height = int(normal_sprite.get_height() * scale)
+            self.normal_sprite = pygame.transform.scale(normal_sprite, (new_width, new_height))
+            self.hover_sprite = pygame.transform.scale(hover_sprite, (new_width, new_height))
+        else:
+            self.normal_sprite = normal_sprite
+            self.hover_sprite = hover_sprite
+            
         self.x = x
         self.y = y
-        self.normal_sprite = normal_sprite
-        self.hover_sprite = hover_sprite
         self.action = action
         self.is_hovered = False
-        self.rect = pygame.Rect(x, y, normal_sprite.get_width(), normal_sprite.get_height())
+        self.rect = pygame.Rect(x, y, self.normal_sprite.get_width(), self.normal_sprite.get_height())
     
     def update(self, mouse_pos):
         """Actualiza el estado hover del botón"""
@@ -55,7 +63,8 @@ class Menu:
             print("Error: No hay suficientes sprites de botones")
             return
         
-        # Botones del menú principal - Diseño: JUGAR a la izquierda, TUTORIAL y CRÉDITOS apilados a la derecha
+        # Factor de escala para achicar los botones
+        scale = 0.5  
         
         # Botón JUGAR - izquierda
         self.jugar_button = Button(
@@ -63,7 +72,8 @@ class Menu:
             y=150,
             normal_sprite=button_sprites[0] if len(button_sprites) > 0 else pygame.Surface((80, 30)),
             hover_sprite=button_sprites[1] if len(button_sprites) > 1 else pygame.Surface((80, 30)),
-            action=self.start_game
+            action=self.start_game,
+            scale=scale
         )
         
         # Botón TUTORIAL - arriba derecha
@@ -72,7 +82,8 @@ class Menu:
             y=120,
             normal_sprite=button_sprites[4] if len(button_sprites) > 4 else button_sprites[0],
             hover_sprite=button_sprites[5] if len(button_sprites) > 5 else button_sprites[1],
-            action=self.show_tutorial
+            action=self.show_tutorial,
+            scale=scale
         )
         
         # Botón CRÉDITOS - abajo derecha
@@ -81,7 +92,8 @@ class Menu:
             y=170,
             normal_sprite=button_sprites[2] if len(button_sprites) > 2 else button_sprites[0],
             hover_sprite=button_sprites[3] if len(button_sprites) > 3 else button_sprites[1],
-            action=self.show_credits
+            action=self.show_credits,
+            scale=scale
         )
         
         # Botón VOLVER - para créditos y tutorial
@@ -93,7 +105,8 @@ class Menu:
             y=200,
             normal_sprite=volver_normal,
             hover_sprite=volver_hover,
-            action=self.back_to_main
+            action=self.back_to_main,
+            scale=scale
         )
         
         # Listas de botones por menú
