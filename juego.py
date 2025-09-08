@@ -25,6 +25,7 @@ class Game:
             'piso': load_images('Tiles/pisos', (16,16)),
             'player': load_image('Reptiliano PJ/pjbien.png', (12, 18)), 
             'buttons': load_images("botones"),
+            'background': load_image("DJ Totote Fondo/DJ totote prime.png", (320, 240))
         }
         
         # cargar fondo del menú
@@ -36,7 +37,7 @@ class Game:
         
         # crear menú
         self.menu = Menu(self)
-        self.scroll = [0, 0]
+        self.scroll = [0, 30]
 
 
     def start_game(self):
@@ -56,7 +57,7 @@ class Game:
                 self.menu.render(self.display)
             elif self.game_state == "PLAYING":
                 # render de lo que se muestra
-                self.display.fill((135, 206, 235))  # fondo azul cielo
+                self.display.blit (self.assets['background'], (0,0))  # fondo 
 
                 self.scroll[0] += (self.player.rect().centerx - self.display.get_width() / 2 - self.scroll[0]) / 30
                 self.scroll[1] += (self.player.rect().centery - self.display.get_height() / 2 - self.scroll[1]) / 30
@@ -64,7 +65,7 @@ class Game:
 
                 self.tilemap.render(self.display, offset=self.scroll)
                 self.player.update(self.tilemap, (self.movement[1] - self.movement[0], 0))
-                self.player.render(self.display, offset = self.scroll)
+                self.player.render(self.display, offset = render_scroll)
 
             
             for event in pygame.event.get():
