@@ -22,3 +22,25 @@ def load_images(path, scale=None):
 
     return images
     # carga una lista de imagenes con la escala dada y les saca el fondo
+
+class Animation :
+    def __init__ (self, images, img_dur = 5, loop = True) :
+        self.images = images
+        self.loop = loop
+        self.dur = img_dur
+        self.done = False
+        self.frame = 0
+    
+    def copy (self) :
+        return Animation (self.images, self.dur, self.loop)
+    
+    def update (self) :
+        if self.loop :
+            self.frame = (self.frame + 1) % (self.dur * len(self.images))
+        else:
+            self.frame = min (self.frame + 1, self.dur * len (self.images) - 1)
+            if self.frame >= self.dur * len (self.images) - 1:
+                self.done = True
+        
+    def img(self) :
+        return self.images[int(self.frame / self.dur)]  
