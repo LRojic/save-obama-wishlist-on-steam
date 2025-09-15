@@ -1,6 +1,6 @@
 import sys
 import pygame
-from script.utils import load_image, load_images
+from script.utils import load_image, load_images, Animation
 from script.entitites import PhysicsEntity
 from script.tilemap import Tilemap
 from script.menu import Menu
@@ -25,7 +25,8 @@ class Game:
             'piso': load_images('Tiles/pisos', (16,16)),
             'player': load_image('Reptiliano PJ/pjbien.png', (12, 18)), 
             'buttons': load_images("botones"),
-            'background': load_image("DJ Totote Fondo/DJ totote prime.png", (320, 240))
+            'background': load_image("DJ Totote Fondo/DJ totote prime.png", (320, 240)),
+            'player/idle' : Animation(load_images("Reptiliano PJ/idle"), img_dur=6)
         }
         
         # cargar fondo del menú
