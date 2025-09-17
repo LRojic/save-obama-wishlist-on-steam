@@ -1,7 +1,7 @@
 import sys
 import pygame
 from script.utils import load_image, load_images, Animation
-from script.entitites import PhysicsEntity
+from script.entitites import PhysicsEntity, Player
 from script.tilemap import Tilemap
 from script.menu import Menu
 
@@ -23,7 +23,7 @@ class Game:
         self.assets = {
             'caja': load_images('Tiles/caja', (16,16)),
             'piso': load_images('Tiles/pisos', (16,16)),
-            'player': load_image('Reptiliano PJ/pjbien.png', (12, 18)), 
+            'player': load_image('Reptiliano PJ/idle/pjbien.png', (12, 18)), 
             'buttons': load_images("botones"),
             'background': load_image("DJ Totote Fondo/DJ totote prime.png", (320, 240)),
             'player/idle' : Animation(load_images("Reptiliano PJ/idle"), img_dur=6)
@@ -33,7 +33,7 @@ class Game:
         self.menu_bg = load_image("Obama_PJ/Menu_chad_sin_botones.png", (320, 240))
         
         # crear entidades del juego
-        self.player = PhysicsEntity(self, "player", (50, 50), (8, 16))
+        self.player = Player(self, (50, 50), (11, 16))
         self.tilemap = Tilemap(self, tile_size=16)
         
         # crear menú
